@@ -2,11 +2,10 @@
 
 namespace TheHuman.Core
 {
-    public class HumanClient
+    public interface IHumanClient
     {
-        public void ConnectToDiscord(string username, string password)
-        {
-
-        }
+        Task ConnectToDiscordAsync(string username, string password);
+        Task RunAsync();
+        Task DisconnectFromDiscordAsync();
     }
 }

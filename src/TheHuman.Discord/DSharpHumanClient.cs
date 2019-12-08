@@ -27,27 +27,39 @@ namespace TheHuman.Discord
 
         public async Task RunAsync()
         {
-            await _client.ConnectAsync();
+            
+
+            _client.MessageCreated += async e =>
+            {
+                // check if it's in direct dms, not group dms
+                // check if their dms are linked to a group
+
+                if (e.Channel.Type is ChannelType.Group)
+                {
+                    return;
+                }
+            };
+
             commands = _client.UseCommandsNext(new CommandsNextConfiguration
             {
                 EnableDms = true,
-
+                CaseSensitive = false,
+                EnableDefaultHelp = true,
+                EnableMentionPrefix = true,
+                IgnoreExtraArguments = false,
+                StringPrefix = "!"
             });
 
             commands.RegisterAllCommands();
 
-            _client.MessageCreated += async e =>
-            {
-                // ronan's ID
-                if (e.Message.Author.Id == 287208546016165888)
-                    await e.Message.RespondAsync($"{e.Message.Author.Mention} is noob");
-            };
+            await _client.ConnectAsync();
             await Task.Delay(-1);
         }
 
         public async Task StopAsync()
         {
-            throw new NotImplementedException();
+            await _client.DisconnectAsync();
+            Environment.Exit(0);
         }
     }
 }

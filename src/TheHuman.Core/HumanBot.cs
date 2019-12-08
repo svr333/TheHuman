@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace TheHuman.Core
 {
     public class HumanBot
@@ -11,7 +13,7 @@ namespace TheHuman.Core
 
         public async Task StartAsync()
         {
-            await _client.ConnectToDiscordAsync();
+            await _client.RunAsync();
         }
     }
 }

@@ -4,7 +4,6 @@ namespace TheHuman.Core
 {
     public interface IHumanClient
     {
-        Task InitializeAsync();
         Task RunAsync();
         Task StopAsync();
     }

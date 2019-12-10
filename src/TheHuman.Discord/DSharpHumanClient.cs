@@ -12,9 +12,9 @@ namespace TheHuman.Discord
         private DiscordClient _client;
         private CommandsNextModule commands;
 
-        public async Task InitializeAsync()
+        private Task InitializeAsync()
         {
-            if (_client is {}) return;
+            if (_client is {}) return Task.CompletedTask;
 
             var token = Environment.GetEnvironmentVariable("HumanToken", EnvironmentVariableTarget.Machine);
 
@@ -23,21 +23,16 @@ namespace TheHuman.Discord
                     Token = token,
                     TokenType = TokenType.User,
                 });
+
+            return Task.CompletedTask;
         }
 
         public async Task RunAsync()
         {
-            
+            if (_client is null) await InitializeAsync();
 
             _client.MessageCreated += async e =>
             {
-                // check if it's in direct dms, not group dms
-                // check if their dms are linked to a group
-
-                if (e.Channel.Type is ChannelType.Group)
-                {
-                    return;
-                }
             };
 
             commands = _client.UseCommandsNext(new CommandsNextConfiguration
@@ -47,7 +42,8 @@ namespace TheHuman.Discord
                 EnableDefaultHelp = true,
                 EnableMentionPrefix = true,
                 IgnoreExtraArguments = false,
-                StringPrefix = "!"
+                StringPrefix = "!",
+
             });
 
             commands.RegisterAllCommands();

@@ -14,8 +14,7 @@ namespace TheHuman.ConsoleApp
         {
             var services = new ServiceCollection().AddBotServices().BuildServiceProvider();
             var client = services.GetRequiredService<IHumanClient>();
-
-            await client.InitializeAsync();
+            
             await client.RunAsync();
         }
     }

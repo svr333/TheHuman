@@ -1,25 +1,17 @@
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using TheHuman.Core;
 
 namespace TheHuman.Discord.Preconditions
 {
     public class RequireGroupContextAttribute : CheckBaseAttribute
     {
-        private ConcurrentDictionary<ulong, ulong> _context = new ConcurrentDictionary<ulong, ulong>();
-
-        private bool UserHasContext(CommandContext ctx)
+        public override Task<bool> CanExecute(CommandContext ctx, bool help) 
         {
-            if (_context.TryGetValue(ctx.User.Id, out var channelId) && channelId != ctx.Channel.Id)
-            {
-                
-            }
-        }
+            var context = ctx.Dependencies.GetDependency<GroupContextService>();
 
-        public override Task<bool> CanExecute(CommandContext ctx, bool help)
-        {
-            return Task.FromResult(UserHasContext(ctx));
+            return Task.FromResult(context.UserHasContext(ctx.User.Id));
         }
     }
 }

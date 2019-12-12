@@ -11,5 +11,11 @@ namespace TheHuman.Discord.Modules
         {
             await context.RespondAsync("pong!");
         }
+
+        [Command("play")]
+        public async Task Play(CommandContext context)
+        {
+            
+        }
     }
 }

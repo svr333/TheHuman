@@ -5,6 +5,8 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using TheHuman.Discord.Extensions;
 using DSharpPlus.EventArgs;
+using DSharpPlus.VoiceNext;
+using DSharpPlus.VoiceNext.Codec;
 
 namespace TheHuman.Discord
 {
@@ -12,6 +14,7 @@ namespace TheHuman.Discord
     {
         private DiscordClient _client;
         private CommandsNextModule commands;
+        private VoiceNextClient _voice;
 
         private Task InitializeAsync()
         {
@@ -53,6 +56,11 @@ namespace TheHuman.Discord
                 IgnoreExtraArguments = false,
                 StringPrefix = "!",
                 Dependencies = ConfigureDependencies()
+            });
+
+            _voice = _client.UseVoiceNext(new VoiceNextConfiguration()
+            {
+                VoiceApplication = VoiceApplication.Music
             });
 
             commands.RegisterAllCommands();

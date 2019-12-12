@@ -7,9 +7,9 @@ namespace TheHuman.Discord.Preconditions
 {
     public class RequireGroupContextAttribute : CheckBaseAttribute
     {
-        public override Task<bool> CanExecute(CommandContext ctx, bool help) 
+        public override Task<bool> ExecuteCheckAsync(CommandContext ctx, bool help) 
         {
-            var context = ctx.Dependencies.GetDependency<GroupContextService>();
+            var context = ctx.Services.GetService(typeof(GroupContextService)) as GroupContextService;
 
             return Task.FromResult(context.UserHasContext(ctx.User.Id));
         }

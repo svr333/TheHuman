@@ -8,7 +8,7 @@ using TheHuman.Core;
 
 namespace TheHuman.Discord
 {
-    public class ContextCommands
+    public class ContextCommands : BaseCommandModule
     {
         private GroupContextService _context;
 

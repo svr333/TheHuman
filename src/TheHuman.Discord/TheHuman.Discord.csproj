@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DSharpPlus" Version="3.2.3"/>
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3"/>
-    <PackageReference Include="DSharpPlus.VoiceNext" Version="3.2.3"/>
-    <PackageReference Include="Lavalink4NET.DSharpPlus" Version="1.4.6"/>
+    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00615" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00615" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00615" />
+    <PackageReference Include="Lavalink4NET.DSharpPlus" Version="1.4.6" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TheHuman.Core\TheHuman.Core.csproj"/>
+    <ProjectReference Include="..\TheHuman.Core\TheHuman.Core.csproj" />
   </ItemGroup>
 </Project>

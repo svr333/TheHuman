@@ -3,18 +3,17 @@ using TheHuman.Core;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using TheHuman.Discord.Extensions;
 using DSharpPlus.EventArgs;
 using DSharpPlus.VoiceNext;
-using DSharpPlus.VoiceNext.Codec;
+using DSharpPlus.Entities;
 
 namespace TheHuman.Discord
 {
     public class DSharpHumanClient : IHumanClient
     {
         private DiscordClient _client;
-        private CommandsNextModule commands;
-        private VoiceNextClient _voice;
+        private CommandsNextExtension commands;
+        private VoiceNextExtension _voice;
 
         private Task InitializeAsync()
         {
@@ -37,8 +36,8 @@ namespace TheHuman.Discord
         {
             if (eventArgs.EventName != "RELATIONSHIP_ADD") return;
 
-            var user = await _client.GetUserAsync(Constants.OwnerId).ConfigureAwait(false);
-            var dmChannel = await _client.CreateDmAsync(user).ConfigureAwait(false);
+            var user = await _client.GetUserAsync(Constants.OwnerId).ConfigureAwait(false) as DiscordMember;
+            var dmChannel = await user.CreateDmChannelAsync();
 
             await _client.SendMessageAsync(dmChannel, $"Bot has received a new friend request\n```json\n{eventArgs.Json}```");
         }
@@ -54,28 +53,16 @@ namespace TheHuman.Discord
                 EnableDefaultHelp = true,
                 EnableMentionPrefix = true,
                 IgnoreExtraArguments = false,
-                StringPrefix = "!",
-                Dependencies = ConfigureDependencies()
+                StringPrefixes = new[] { "!" }
             });
 
             _voice = _client.UseVoiceNext(new VoiceNextConfiguration()
             {
-                VoiceApplication = VoiceApplication.Music
+                AudioFormat = AudioFormat.Default
             });
-
-            commands.RegisterAllCommands();
 
             await _client.ConnectAsync();
             await Task.Delay(-1);
-        }
-
-        private DependencyCollection ConfigureDependencies()
-        {
-            var builder = new DependencyCollectionBuilder();
-
-            builder.AddInstance(new GroupContextService());
-
-            return builder.Build();
         }
 
         public async Task StopAsync()

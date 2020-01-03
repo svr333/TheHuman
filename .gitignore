@@ -350,4 +350,5 @@ MigrationBackup/
 .ionide/
 
 # Project specific
-Constants.cs
+Lavalink.jar
+application.yml
